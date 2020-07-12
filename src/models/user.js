@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const expense = require('./expense');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -49,6 +50,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+userSchema.virtual('expenses', {
+    ref: 'Expense',
+    localField: '_id',
+    foreignField: 'owner'
+}) 
+
+// Privatize the password and tokens array
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
@@ -57,6 +65,7 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
+// Generate auth token and add it to user's tokens array
 userSchema.methods.generateAuthToken = async function () {
     console.log("generateAuthToken is called");
     const user = this;
@@ -66,6 +75,7 @@ userSchema.methods.generateAuthToken = async function () {
     return token; 
 }
 
+// Find user with input email and then validate whether input password matches hashed password in db  
 userSchema.statics.findByCredentials = async (email, password) => {
     console.log('findByCredentials is called');
     const user = await User.findOne({ email })
@@ -86,6 +96,13 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
+    next();
+})
+
+// Delete user expenses when user is removed
+userSchema.pre('remove', async function (next) {
+    const user = this;
+    await expense.deleteMany({ owner: user._id });
     next();
 })
 

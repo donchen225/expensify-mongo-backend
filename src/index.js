@@ -24,4 +24,18 @@ app.use(expenseRouter);
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
-})
+});
+
+const Expense = require('./models/expense');
+const User = require('./models/user');
+
+const main = async () => {
+    // const expense = await Expense.findById("5f06ec6680ccf7f49e7fa911");
+    // await expense.populate('owner').execPopulate();
+    // console.log(expense.owner);
+
+    const user = await User.findById('5f06ec0080ccf7f49e7fa90e');
+    await user.populate('expenses').execPopulate();
+    console.log(user.expenses);
+}
+main();

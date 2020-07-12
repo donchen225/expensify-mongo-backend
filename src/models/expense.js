@@ -30,6 +30,11 @@ const Expense = mongoose.model('Expense', {
         type: String,
         trim: true,
         maxlength: 50
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 })
 
