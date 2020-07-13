@@ -3,7 +3,7 @@ const router = new express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 
-// signup user
+// signup user - create user profile
 router.post('/users', async (req, res) => {
     const user = new User(req.body);
     try {
@@ -55,6 +55,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 })
 
+// update profile of currently authenticated user
 router.patch('/users/me', auth, async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ["name", "email", "password", "age"];
@@ -78,6 +79,7 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 })
 
+// delete profile of currently authenticated user
 router.delete('/users/me', auth, async (req, res) => {
     try {
         // const user = await User.findByIdAndDelete(req.user_id);

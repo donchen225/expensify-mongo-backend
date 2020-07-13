@@ -1,15 +1,10 @@
 // CRUD create read update delete
-
-// const mongodb = require('mongodb');
-// const MongoClient = mongodb.MongoClient;
-// const ObjectID = mongodb.ObjectID;
-
 const { MongoClient, ObjectID } = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017';
-const databaseName = 'task-manager';
+const databaseName = 'expense-manager';
 
-const id = new ObjectID();
+// const id = new ObjectID();
 // console.log(id.id.length);
 // console.log(id.getTimestamp());
 // console.log(id.toHexString().length);
