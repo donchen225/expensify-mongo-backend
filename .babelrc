@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "@babel/react", 
+    "@babel/env"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "@babel/plugin-transform-destructuring", 
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-runtime"
+  ]
+}
+  
